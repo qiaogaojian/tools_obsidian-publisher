@@ -3,3 +3,4 @@
 build
 dist
 obsidian2hexo.spec
+release/obsidian2hexo/log
