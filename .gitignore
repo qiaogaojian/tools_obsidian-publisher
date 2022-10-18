@@ -1,2 +1,5 @@
 **/__pycache__/**
 /log
+build
+dist
+obsidian2hexo.spec
