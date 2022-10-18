@@ -105,6 +105,8 @@ class Note():
             front = re.search("(?<!\S)!\[.*\]\(", link).group()
             image = link.replace(front, "")
             image = image.replace(")", "")
+            if '/' in image:
+                image = image.split('/')[-1].strip()
             if self.is_res_available(image):
                 images.append(image)
                 image_link = f"![](/images/{image})"
