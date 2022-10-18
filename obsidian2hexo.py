@@ -1,13 +1,13 @@
 import os
 import re
 import sys
+import time
 import traceback
 import subprocess
 import yaml
 import shutil
 from datetime import datetime
 from util.logger import Logger
-from util.tools import get_cur_timestr
 
 logger = Logger(__file__)
 logger.set_handler("file")
@@ -377,6 +377,26 @@ def deploy_hexo(hexo_path):
         logger.info("********************************* hexo deploy success! *********************************")
     except Exception as e:
         print(f"deploy_hexo Exception:{e} trackback:{traceback.format_exc()}")
+
+
+def get_cur_timestr(time_foramt='%Y-%m-%d %H:%M:%S'):
+    """ 获取当前时间字符串 """
+    return timestamp2timestr(get_cur_timestamp(), time_foramt)
+
+
+def timestamp2timestr(timestamp, time_format='%Y-%m-%d %H:%M:%S', offset_z=0):
+    """
+    :param timestamp: 时间戳
+    :param time_format:
+    :param offset_z: 时区差, 东加西减
+    :return: 时间字符串
+    """
+    return time.strftime(time_format, time.localtime(timestamp + offset_z * 3600))
+
+
+def get_cur_timestamp():
+    """ 获取当前时间戳 """
+    return int(time.time())
 
 
 if __name__ == "__main__":
