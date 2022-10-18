@@ -1,3 +1,4 @@
+convert obsidian markdown note to hexo format and publish to github pages, support cross-referencing and resource migration.
 
 **示例**
 
