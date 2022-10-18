@@ -85,7 +85,7 @@ class Note():
     def get_images(self):
         images = []
 
-        pattern_image1 = '(?<!\S)!\[\[.*\]\]'
+        pattern_image1 = '!\[\[.*\]\]'
         res1 = re.compile(pattern_image1).findall(self.content)
         for link in res1:
             image = link.replace("![[", "")
@@ -97,12 +97,12 @@ class Note():
                 image_link = f"![](/images/{image})"
                 self.content = self.content.replace(link, image_link)
 
-        pattern_image2 = '(?<!\S)!\[.*\]\(.*\)'
+        pattern_image2 = '!\[.*\]\(.*\)'
         res2 = re.compile(pattern_image2).findall(self.content)
         for link in res2:
             if 'http' in link:
                 continue
-            front = re.search("(?<!\S)!\[.*\]\(", link).group()
+            front = re.search("!\[.*\]\(", link).group()
             image = link.replace(front, "")
             image = image.replace(")", "")
             if '/' in image:
