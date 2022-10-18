@@ -16,6 +16,3 @@ exclude:
   - '4.技能\English\Dictionary'
   - 'stash'
   - '.obsidian'
-
-# 同步间隔时间
-interval: 60

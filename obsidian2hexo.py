@@ -395,15 +395,12 @@ if __name__ == "__main__":
     share_tag = config['share_tag']
     if share_tag is None:
         share_tag = 'share'
-    interval = config['interval']
-    if interval is None:
-        interval = 1800
 
     logger.info(f"\npath_from:\t{path_from}\n"
-                f"exclude:\t{exclude}\n"
                 f"path_to:\t{path_to}\n"
-                f"share_tag:\t{share_tag}\n"
-                f"interval:\t{interval}\n")
+                f"resource:\t{resource}\n"
+                f"exclude:\t{exclude}\n"
+                f"share_tag:\t{share_tag}\n")
 
     notes, share_notes = get_all_notes(path_from, exclude, share_tag, resource)
     gen_hexo_notes(notes, share_notes, path_to, resource)
