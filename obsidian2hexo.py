@@ -64,7 +64,7 @@ class Note():
         return self.is_share
 
     def get_links(self):
-        pattern_link = '(?<!\S)\[\[.*\]\]'
+        pattern_link = '(?<!!)\[\[.*\]\]'
         links = re.compile(pattern_link).findall(self.content)
         link_files = []
         for link in links:
