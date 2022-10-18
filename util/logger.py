@@ -41,7 +41,7 @@ class Logger(Singleton):
         if handler != "console":
             filename = os.path.realpath(__file__)
             cur_file_path = os.path.dirname(filename)
-            log_path = f"{cur_file_path}/log"
+            log_path = f"{cur_file_path}/../log"
             logname = f"{log_path}/{self.log_name}.log"  # 指定输出的日志文件名
             os.makedirs(log_path, exist_ok=True)
             print(f"log file path:{logname}")
@@ -75,7 +75,7 @@ class Logger(Singleton):
         """
         filename = os.path.realpath(__file__)
         cur_file_path = os.path.dirname(filename)
-        log_path = f"{cur_file_path}/log"
+        log_path = f"{cur_file_path}/../log"
         logname = f"{log_path}/{log_name}.log"  # 指定输出的日志文件名
         os.makedirs(log_path, exist_ok=True)
         print(f"log file path:{logname}")
