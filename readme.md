@@ -1,4 +1,8 @@
-convert obsidian markdown note to hexo format and publish to github pages, support cross-referencing and resource migration.
+解析obsidian笔记为hexo支持的格式并发布到github pages, 支持双链和本地资源迁移.
+
+**原理**
+
+发布时发布工具自动检测 obsidian 中带 `#share` 标签的markdown笔记,解析并添加 hexo metadata
 
 **示例**
 
@@ -7,4 +11,14 @@ https://qiaogaojian.github.io/1186/
 **配套 Hexo 仓库**
 
 https://github.com/qiaogaojian/note_hexo
+
+**使用**
+
+- 根据注释配置工具同名的配置文件
+- 需要发布的笔记添加发布标签(默认`#share`)
+- 安装 python 运行环境并配置环境变量
+- 运行脚本
+```sh
+python obsidian2hexo.py
+```
 
