@@ -6,7 +6,7 @@
 
 **示例**
 
-https://qiaogaojian.github.io/1186/
+https://qiaogaojian.github.io/7754587453101531348/
 
 **配套 Hexo 仓库**
 
@@ -16,8 +16,7 @@ https://github.com/qiaogaojian/note_hexo
 
 - 根据注释配置工具同名的配置文件
 - 需要发布的笔记添加发布标签(默认`#share`)
-- 安装 python 运行环境并配置环境变量
-- 运行脚本
+- 运行release下的 `obsidian2hexo.exe` 或者直接运行脚本(需要安装 python3.6+ 运行环境并配置环境变量)
 ```sh
 python obsidian2hexo.py
 ```
