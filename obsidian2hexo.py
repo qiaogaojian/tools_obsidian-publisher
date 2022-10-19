@@ -158,10 +158,6 @@ class Note():
         return get_cur_timestr()
 
     def get_create_hash(self):
-        if len(self.commits) > 0:
-            oldest_commit = self.commits[-1]
-            create_hash = oldest_commit['hash']
-            return create_hash
         return hash(self.file_path)
 
     def get_last_date(self):
