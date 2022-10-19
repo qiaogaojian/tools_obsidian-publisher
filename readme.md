@@ -21,3 +21,9 @@ https://github.com/qiaogaojian/note_hexo
 python obsidian2hexo.py
 ```
 
+默认后台运行, 想看进度的话可以在程序目录的log文件夹查看日志
+
+**TODO**
+
+- 定期自动同步+发布
+- 做成 Obsidian 插件的形式
