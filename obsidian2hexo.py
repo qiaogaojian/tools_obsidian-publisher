@@ -32,6 +32,7 @@ class Note():
         self.commits = self.get_git_commits()
         self.create_date = self.get_create_date()
         self.last_date = self.get_last_date()
+        self.create_hash = self.get_create_hash()
 
     def get_content(self):
         with open(self.file_path, "r", encoding='utf-8') as f:
@@ -155,6 +156,13 @@ class Note():
             oldest_commit = self.commits[-1]
             return convert_git_date(oldest_commit)
         return get_cur_timestr()
+
+    def get_create_hash(self):
+        if len(self.commits) > 0:
+            oldest_commit = self.commits[-1]
+            create_hash = oldest_commit['hash']
+            return create_hash
+        return hash(self.file_path)
 
     def get_last_date(self):
         if len(self.commits) > 0:
@@ -336,7 +344,7 @@ def gen_hexo_notes(notes, share_notes, path_to, resource):
     shutil.rmtree(posts_foler, ignore_errors=True)
     os.mkdir(posts_foler)
     for note in share_notes:
-        logger.info(f"generate hexo note: {note.note_index} {note.file_name}")
+        logger.info(f"generate hexo note: {note.create_hash} {note.file_name}")
         for img in note.images:
             from_path = f"{resource}/{img}"
             to_path = f"{path_to}/source/images/{img}"
@@ -348,12 +356,12 @@ def gen_hexo_notes(notes, share_notes, path_to, resource):
         for link in note.links:
             link_note = get_link_note(notes, link)
             if link_note is not None:
-                link_path = f"[{link_note.file_name}](../{link_note.note_index})"
+                link_path = f"[{link_note.file_name}](../{link_note.create_hash})"
                 if '#' in link:
                     link_title = link.split('#')[-1]
-                    link_path = f"[{link_note.file_name}](../{link_note.note_index}/#{link_title})"
+                    link_path = f"[{link_note.file_name}](../{link_note.create_hash}/#{link_title})"
                 note.content = note.content.replace(f"[[{link}]]", link_path)
-        note_path = f"{path_to}/source/_posts/{note.note_index}.md"
+        note_path = f"{path_to}/source/_posts/{note.create_hash}.md"
         with open(note_path, "w", encoding="utf-8") as wordFile:
             wordFile.write(note.get_full_content())
 
