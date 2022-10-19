@@ -1,6 +1,7 @@
 **/__pycache__/**
 /log
-build
-dist
+/build
+/dist
+/release
 obsidian2hexo.spec
 release/obsidian2hexo/log
