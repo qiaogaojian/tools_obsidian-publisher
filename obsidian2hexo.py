@@ -2,6 +2,7 @@ import os
 import re
 import sys
 import time
+import hashlib
 import traceback
 import subprocess
 import yaml
@@ -159,7 +160,7 @@ class Note():
         return get_cur_timestr()
 
     def get_create_hash(self):
-        return hash(self.file_path)
+        return get_sha1(self.file_path)
 
     def get_last_date(self):
         if len(self.commits) > 0:
@@ -418,6 +419,11 @@ def timestamp2timestr(timestamp, time_format='%Y-%m-%d %H:%M:%S', offset_z=0):
 def get_cur_timestamp():
     """ 获取当前时间戳 """
     return int(time.time())
+
+
+def get_sha1(content):
+    hash_sha1 = hashlib.sha1(str(content).encode("utf-8")).hexdigest()
+    return hash_sha1
 
 
 if __name__ == "__main__":
