@@ -205,7 +205,7 @@ tags: {tags}
         full = self.get_metadata() + self.content
 
         if len(self.backlink) > 0:
-            full += "**Backlinks:**\n"
+            full += "**\n\nBacklinks:**\n"
             for backlink in self.backlink:
                 full += f"\n- {backlink}"
         return full
