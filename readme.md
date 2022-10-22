@@ -23,6 +23,19 @@ python obsidian2hexo.py
 
 默认后台运行, 想看进度的话可以在程序目录的log文件夹查看日志
 
+**打包**
+
+安装 pyinstaller3.6
+
+```
+pip install pyinstaller=3.6
+```
+
+命令行进入项目目录运行打包命令
+```
+pyinstaller -D -w .\obsidian2hexo.py
+```
+
 **TODO**
 
 - 定期自动同步+发布
