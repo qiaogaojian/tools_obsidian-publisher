@@ -33,6 +33,7 @@ class Note():
         self.create_date = self.get_create_date()
         self.last_date = self.get_last_date()
         self.create_hash = self.get_create_hash()
+        self.backlink = set()
 
     def get_content(self):
         with open(self.file_path, "r", encoding='utf-8') as f:
@@ -193,10 +194,19 @@ tags: {tags}
 """
         return metadata
 
+    def append_backlink_note(self, ref_note):
+        link_path = f"[{ref_note.file_name}](../{ref_note.create_hash})"
+        self.backlink.add(link_path)
+
     def get_full_content(self):
         self.content = self.content.replace("??\n", "\n")
         self.content = self.content.replace("```run-", "```")
         full = self.get_metadata() + self.content
+
+        if len(self.backlink) > 0:
+            full += "**Backlinks:**\n"
+            for backlink in self.backlink:
+                full += f"\n- {backlink}"
         return full
 
 
@@ -339,8 +349,9 @@ def gen_hexo_notes(notes, share_notes, path_to, resource):
     posts_foler = f"{path_to}/source/_posts/"
     shutil.rmtree(posts_foler, ignore_errors=True)
     os.mkdir(posts_foler)
+
+    notes_to_gen = []
     for note in share_notes:
-        logger.info(f"generate hexo note: {note.create_hash} {note.file_name}")
         for img in note.images:
             from_path = f"{resource}/{img}"
             to_path = f"{path_to}/source/images/{img}"
@@ -357,6 +368,10 @@ def gen_hexo_notes(notes, share_notes, path_to, resource):
                     link_title = link.split('#')[-1]
                     link_path = f"[{link_note.file_name}](../{link_note.create_hash}/#{link_title})"
                 note.content = note.content.replace(f"[[{link}]]", link_path)
+                link_note.append_backlink_note(note)
+        notes_to_gen.append(note)
+    for note in notes_to_gen:
+        logger.info(f"generate hexo note: {note.create_hash} {note.file_name}")
         note_path = f"{path_to}/source/_posts/{note.create_hash}.md"
         with open(note_path, "w", encoding="utf-8") as wordFile:
             wordFile.write(note.get_full_content())
