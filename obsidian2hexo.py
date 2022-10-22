@@ -25,6 +25,7 @@ class Note():
         self.content = self.get_content()
         self.tags = self.get_tags()
         self.is_share = self.check_share()
+        self.is_top = self.check_top()
         self.images = self.get_images()
         self.files = self.get_files()
         self.links = self.get_links()
@@ -52,7 +53,10 @@ class Note():
         tags = []
         all_tag = re.compile(pattern_tag).findall(first_line)
         self.is_share = False
+        self.is_top = False
         for tag in all_tag:
+            if f"#top" == tag:
+                self.is_top = True
             if f"#{share_tag}" == tag:
                 self.is_share = True
                 continue
@@ -65,6 +69,9 @@ class Note():
 
     def check_share(self):
         return self.is_share
+
+    def check_top(self):
+        return self.is_top
 
     def get_links(self):
         pattern_link = '(?<!!)\[\[.*\]\]'
@@ -174,6 +181,7 @@ class Note():
     def get_metadata(self):
         title = self.file_name
         date = self.create_date
+        top = self.is_top
 
         categories = []
         paths = self.real_path.split(os.sep)
@@ -191,6 +199,7 @@ title: {title}
 date: {date}
 categories: {categories}
 tags: {tags}
+top: {top}
 ---\n
 """
         return metadata
