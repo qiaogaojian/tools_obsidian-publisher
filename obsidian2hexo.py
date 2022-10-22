@@ -200,8 +200,13 @@ tags: {tags}
         self.backlink.add(link_path)
 
     def get_full_content(self):
-        self.content = self.content.replace("??\s*\n", "\n")
-        self.content = self.content.replace("```run-", "```")
+        self.content = re.sub(r"((```\w*|\?\?)(?=\s))(.*)", r'\1', self.content)
+        self.content = re.sub(r"```run-", "```", self.content)
+        self.content = re.sub(r"\?\?.*", "  ", self.content)
+        self.content = re.sub(r"(\n)(#{2,})", r'  \1\2', self.content)
+        self.content = re.sub(r"(?<!\n)(\n#{2,})", r'\n  \1', self.content)
+        self.content = re.sub(r"(#{2,}.*\n)(?!\n)", r'\1\n', self.content)
+
         full = self.get_metadata() + self.content
 
         if len(self.backlink) > 0:
