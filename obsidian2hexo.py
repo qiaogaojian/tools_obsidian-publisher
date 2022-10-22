@@ -381,7 +381,7 @@ def gen_hexo_notes(notes, share_notes, path_to, resource):
                 link_path = f"[{link_note.file_name}](../{link_note.create_hash})"
                 if '#' in link:
                     link_title = link.split('#')[-1]
-                    link_path = f"[{link_note.file_name}](../{link_note.create_hash}/#{link_title})"
+                    link_path = f"[{link_note.file_name}#{link_title}](../{link_note.create_hash}/#{link_title})"
                 note.content = note.content.replace(f"[[{link}]]", link_path)
                 link_note.append_backlink_note(note)
         notes_to_gen.append(note)
