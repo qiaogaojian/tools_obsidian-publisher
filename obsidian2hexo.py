@@ -178,7 +178,7 @@ class Note():
     def reset_link(self, link, link_url):
         self.content = self.content.replace(link, link_url)
 
-    def get_metadata(self):
+    def gen_metadata(self):
         title = self.file_name
         date = self.create_date
         top = self.is_top
@@ -202,7 +202,21 @@ tags: {tags}
 top: {top}
 ---\n
 """
-        return metadata
+        self.content = metadata + self.content
+
+    def gen_backlinks(self):
+        if len(self.backlink) > 0:
+            self.content += "\n\n**Backlinks:**\n"
+            for backlink in self.backlink:
+                self.content += f"\n- {backlink}"
+
+    def gen_mindmap(self):
+        if len(self.backlink) > 0:
+            self.content += "\n\n{% pullquote mindmap mindmap-md %}"
+            self.content += f"\n- {self.file_name}"
+            for backlink in self.backlink:
+                self.content += f"\n  - {backlink}"
+            self.content += "\n{% endpullquote %}"
 
     def append_backlink_note(self, ref_note):
         link_path = f"[{ref_note.file_name}](../{ref_note.create_hash})"
@@ -216,13 +230,11 @@ top: {top}
         self.content = re.sub(r"(?<!\n)(\n#{2,})", r'\n  \1', self.content)
         self.content = re.sub(r"(#{2,}.*\n)(?!\n)", r'\1\n', self.content)
 
-        full = self.get_metadata() + self.content
+        self.gen_metadata()
+        self.gen_backlinks()
+        self.gen_mindmap()
 
-        if len(self.backlink) > 0:
-            full += "\n\n**Backlinks:**\n"
-            for backlink in self.backlink:
-                full += f"\n- {backlink}"
-        return full
+        return self.content
 
 
 def get_cur_file_name():
