@@ -36,6 +36,7 @@ class Note():
         self.last_date = self.get_last_date()
         self.create_hash = self.get_create_hash()
         self.backlink = set()
+        self.md_links = set()
 
     def get_content(self):
         with open(self.file_path, "r", encoding='utf-8') as f:
@@ -214,13 +215,15 @@ top: {top}
         if len(self.backlink) > 0:
             self.content += "\n\n{% pullquote mindmap mindmap-md %}"
             self.content += f"\n- {self.file_name}"
-            for backlink in self.backlink:
-                self.content += f"\n  - {backlink}"
+            for mdlink in self.md_links:
+                self.content += f"\n  - {mdlink}"
             self.content += "\n{% endpullquote %}"
 
-    def append_backlink_note(self, ref_note):
-        link_path = f"[{ref_note.file_name}](../{ref_note.create_hash})"
-        self.backlink.add(link_path)
+    def append_mdlink(self, link):
+        self.md_links.add(link)
+
+    def append_backlink_note(self, link):
+        self.backlink.add(link)
 
     def get_full_content(self):
         self.content = re.sub(r"((```\w*|\?\?)(?=\s))(.*)", r'\1', self.content)
@@ -395,7 +398,11 @@ def gen_hexo_notes(notes, share_notes, path_to, resource):
                     link_title = link.split('#')[-1]
                     link_path = f"[{link_note.file_name}#{link_title}](../{link_note.create_hash}/#{link_title})"
                 note.content = note.content.replace(f"[[{link}]]", link_path)
-                link_note.append_backlink_note(note)
+                note.append_mdlink(link_path)
+
+                back_link = f"[{note.file_name}](../{note.create_hash})"
+                link_note.append_mdlink(back_link)
+                link_note.append_backlink_note(back_link)
         notes_to_gen.append(note)
     for note in notes_to_gen:
         logger.info(f"generate hexo note: {note.create_hash} {note.file_name}")
