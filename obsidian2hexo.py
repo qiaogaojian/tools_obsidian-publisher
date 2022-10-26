@@ -212,7 +212,7 @@ top: {top}
                 self.content += f"\n- {backlink}"
 
     def gen_mindmap(self):
-        if len(self.backlink) > 0:
+        if len(self.backlink) + len(self.md_links) > 0:
             self.content += "\n\n{% pullquote mindmap mindmap-md %}"
             self.content += f"\n- {self.file_name}"
             for mdlink in self.md_links:
