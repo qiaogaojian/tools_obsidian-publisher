@@ -182,7 +182,7 @@ class Note():
     def gen_metadata(self):
         title = self.file_name
         date = self.create_date
-        top = self.is_top
+        top = 999 if self.is_top else 0
 
         categories = []
         paths = self.real_path.split(os.sep)
@@ -195,14 +195,15 @@ class Note():
         for tag in self.tags:
             tags.append(tag)
 
-        metadata = f"""---
-title: {title}
-date: {date}
-categories: {categories}
-tags: {tags}
-top: {top}
----\n
-"""
+        metadata = "---\n"
+        metadata += f"title: {title}\n"
+        metadata += f"date: {date}\n"
+        metadata += f"categories: {categories}\n"
+        metadata += f"tags: {tags}\n"
+        if self.is_top:
+            metadata += f"top: {top}\n"
+        metadata += "---\n"
+
         self.content = metadata + self.content
 
     def gen_backlinks(self):
